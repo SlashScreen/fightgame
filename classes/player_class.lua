@@ -3,13 +3,25 @@
 player = {}
 
 function player:init(world)
+
+  --[[
+  TODO:
+  -base off of json file
+  -sprites
+  -improve air control (conditional linear damping?)
+  -attacks
+  -jump limit (based on config file)
+  -speed (fconfig)
+  ]]
+
+
   self.jumpcounter = 2
   self.phys = {}
   self.phys.body = love.physics.newBody(world, 200, 550, "dynamic")
   self.phys.body:setFixedRotation(true)
   self.phys.shape = love.physics.newRectangleShape(0, 0, 50, 100)
   self.phys.fixture = love.physics.newFixture(self.phys.body, self.phys.shape, 5) -- A higher density gives it more mass.
-
+  self.phys.fixture:setFriction(.5)
 end
 
 function player:update(dt)
