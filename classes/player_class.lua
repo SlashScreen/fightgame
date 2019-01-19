@@ -55,19 +55,19 @@ function player:update(dt)
 
   if love.keyboard.isDown("lshift") then --SLIDE SHAPE
     self.state = "slide"
-    --print("slide")
     self.phys.shape = self.slideshape
     self:reFix()
+    self.phys.fixture:setFriction(.1)
   end
   function love.keyreleased(key)
     if key == "lshift" then
       self.state = "land"
       self.phys.shape = self.standshape
+      self.phys.fixture:setFriction(.5)
       self:reFix()
     end
   end
-
-  --if not self.state == "slide" then
+  if self.state ~= "slide" then
     if love.keyboard.isDown("d") then --press the d key to push the player to the right
       self.dir = 1
       self.phys.body:applyForce(10000, 0)
@@ -75,7 +75,7 @@ function player:update(dt)
       self.dir = -1
       self.phys.body:applyForce(-10000, 0)
     end
-  --end
+  end
   xv,yv = self.phys.body:getLinearVelocity()
   function love.keypressed(key)
      if key == "escape" then
