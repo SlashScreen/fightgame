@@ -54,16 +54,16 @@ function player:update(dt)
        love.event.quit()
      end
      if key == "space" then --if jumping breaks the < might be it
-       if self.jumpcounter < self.jumpmax and self.state ~= "dash" then
+       if self.jumpcounter <= self.jumpmax and self.state ~= "dash" then --Jump
         self.jumpcounter = self.jumpcounter+1
         self.phys.body:setLinearVelocity(xv, -500)
        end
-       if self.jumpcounter > self.jumpmax-1 and self.state == "air" and self.dashed == false then
+       if self.jumpcounter > self.jumpmax-1 and self.state == "air" and self.dashed == false then --Dash
          self.state = "dash"
          self.phys.body:applyForce(1000000, 0)
          self.dashed = true
        end
-       if self.state == "dash" and self.dashed == true then
+       if self.state == "dash" and self.dashed == true then --Cancel
          print("cancel")
          self.phys.body:setLinearVelocity(0, -500)
          self.state = "air"
