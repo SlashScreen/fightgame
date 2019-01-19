@@ -19,7 +19,7 @@ function player:init(world)
   self.jumpmax = 3
   self.state = "land"
   self.dashed = false
-  self.dir = 0 --TODO: make dash with this
+  self.dir = 1
   self.phys = {}
   self.phys.body = love.physics.newBody(world, 200, 550, "dynamic")
   self.phys.body:setFixedRotation(true)
@@ -43,9 +43,11 @@ function player:update(dt)
     self.phys.body:setLinearDamping(0)
   end
 
-  if love.keyboard.isDown("d") then --press the right arrow key to push the player to the right
+  if love.keyboard.isDown("d") then --press the d key to push the player to the right
+    self.dir = 1
     self.phys.body:applyForce(10000, 0)
-  elseif love.keyboard.isDown("a") then --press the left arrow key to push the player to the left
+  elseif love.keyboard.isDown("a") then --press a key to push the player to the left
+    self.dir = -1
     self.phys.body:applyForce(-10000, 0)
   end
   xv,yv = self.phys.body:getLinearVelocity()
@@ -60,12 +62,12 @@ function player:update(dt)
        end
        if self.jumpcounter > self.jumpmax-1 and self.state == "air" and self.dashed == false then --Dash
          self.state = "dash"
-         self.phys.body:applyForce(1000000, 0)
+         self.phys.body:applyForce(1000000*self.dir, 0)
          self.dashed = true
        end
        if self.state == "dash" and self.dashed == true then --Cancel
          print("cancel")
-         self.phys.body:setLinearVelocity(0, -500)
+         self.phys.body:setLinearVelocity(0, -200)
          self.state = "air"
        end
      end
