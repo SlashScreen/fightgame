@@ -1,14 +1,39 @@
 {
 	"primary":{
+		"damage":2,
+		"type":"one",
+		"hit":{
+			"frames":{
+				"1":"###/###"
+			}
+		}
 
 	},
 	"secondary":{
-
+		"damage":2,
+		"type":"one",
+		"hit":{
+			"frames":{
+				"1":"###/###"
+			}
+		}
 	},
 	"special":{
-
+		"damage":2,
+		"type":"one",
+		"hit":{
+			"frames":{
+				"1":"###/###"
+			}
+		}
 	},
-	"uber":{
-		
+	"super":{
+		"damage":2,
+		"type":"one",
+		"hit":{
+			"frames":{
+				"1":"###/###"
+			}
+		}
 	}
 }

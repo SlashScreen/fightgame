@@ -8,4 +8,18 @@ function utils:create (o)
       return o
 end
 
+function utils:printTable(table,depth)
+  if depth == nil then
+    depth = 0
+  end
+  for key,value in pairs(table) do
+    if type(value) == "table" then
+      print(string.rep("   ",depth)..key)
+      utils:printTable(value,depth+1)
+    else
+      print(string.rep("   ",depth)..key,value)
+    end
+  end
+end
+
 return utils
