@@ -3,6 +3,9 @@
 player = {}
 
 function player:reFix()
+  if self.phys.fixture then
+    self.phys.fixture:destroy()
+  end
   self.phys.fixture = love.physics.newFixture(self.phys.body, self.phys.shape, 5) -- A higher density gives it more mass.
 end
 
@@ -50,7 +53,7 @@ function player:update(dt)
 
   end
 
-  --[[if love.keyboard.isDown("lshift") then --SLIDE SHAPE
+  if love.keyboard.isDown("lshift") then --SLIDE SHAPE
     self.state = "slide"
     --print("slide")
     self.phys.shape = self.slideshape
@@ -62,7 +65,7 @@ function player:update(dt)
       self.phys.shape = self.standshape
       self:reFix()
     end
-  end]]
+  end
 
   --if not self.state == "slide" then
     if love.keyboard.isDown("d") then --press the d key to push the player to the right
