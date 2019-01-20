@@ -1,5 +1,6 @@
 --main.lua
-function love.load()
+function love.load(arg)
+  if arg[#arg] == "-debug" then require("mobdebug").start() end
   local fos = require "fightOS"
   local game = require "game"
   p = game:load()

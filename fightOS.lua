@@ -11,15 +11,12 @@ function fos:parseHitbox(adata)
   boxes = {}
   aboxes = {}
     for g,m in pairs(adata) do
-      --utils:printTable(i)
       for t,h in pairs(m["hit"]["frames"]) do
-        --print(h)
         x = 0
         y = 0
         boxes = {}
         for i = 1, #h do
           local c = h:sub(i,i)
-          --print(c)
           if c == "/" then
             x = 0
             y = y+1
@@ -32,7 +29,6 @@ function fos:parseHitbox(adata)
       end
       aboxes[g]=boxes --boxes for attack name g
     end
-  --utils:printTable(aboxes)
   return aboxes
 end
 
@@ -42,9 +38,7 @@ function fos:loadchar(char)
   fdata = json.decode(fconfig:read("*all")) --fighter config table
   adata = json.decode(aconfig:read("*all")) --attack config table
   --TODO: make objects out of adata
-  print(fdata["health"])
   abox = fos:parseHitbox(adata)
-  utils:printTable(abox)
   return fdata,adata,abox
 end
 

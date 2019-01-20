@@ -3,6 +3,7 @@ game = {}
 function game:load()
 
   local pclass = require "classes/player_class"
+  local dclass = require "classes/dummy_class"
   local utils = require "modules/utils"
 
   --TODO: Make ground based on map, make rects based on players
@@ -14,35 +15,43 @@ function game:load()
 
   --[[OBJECTS]]--
 
-  player = utils:create(player)
-  player:init(world,"test")
-  players = {player}
+  --players
+  players = {}
+  pl = utils:create(pclass) --these both refer to the same object ????
+  pl:init(world,"test",100,150,"player")
+  players[#players+1] = pl;
+  dum = utils:create(dclass)
+  dum:init(world,"test",300,150,"dummy")
+  players[#players+1] = dum
+
+  print(dum==pl)
+  --utils:printTable(pl)
 
   objects = {} -- table to hold all our physical objects
-  --stage
   objects.ground = {}
   objects.ground.body = love.physics.newBody(world, 650/2, 650-50/2) --remember, the shape (the rectangle we create next) anchors to the body from its center, so we have to move it to (650/2, 650-50/2)
   objects.ground.shape = love.physics.newRectangleShape(650, 50) --make a rectangle with a width of 650 and a height of 50
   objects.ground.fixture = love.physics.newFixture(objects.ground.body, objects.ground.shape); --attach shape to body
   objects.ground.fixture:setFriction(1)
-  --[[DEFAULTS]]--
 
-
-  return player
+  return players
 end
 
-function game:update(dt,player)
+function game:update(dt,players)
   world:update(dt) --this puts the world into motion
-  player:update(dt,players)
- --here we are going to create some keyboard events
-
+  for _,p in pairs(players) do
+    --print(p.name)
+    p:update(dt,players)
+  end
 
 end
 
-function game:draw(player)
+function game:draw(players)
   love.graphics.setColor(0.28, 0.63, 0.05) -- set the drawing color to green for the ground
   love.graphics.polygon("fill", objects.ground.body:getWorldPoints(objects.ground.shape:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
-  player:draw()
+  for _,p in pairs(players) do
+    p:draw()
+  end
 end
 
 return game
