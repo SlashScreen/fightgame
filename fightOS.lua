@@ -9,26 +9,30 @@ function fos:parseHitbox(adata)
   x = 0
   y = 0
   boxes = {}
-  boxes[x] = {}
   aboxes = {}
     for g,m in pairs(adata) do
       --utils:printTable(i)
       for t,h in pairs(m["hit"]["frames"]) do
-        print(h)
+        --print(h)
+        x = 0
+        y = 0
+        boxes = {}
         for i = 1, #h do
           local c = h:sub(i,i)
-          print(c)
+          --print(c)
           if c == "/" then
             x = 0
             y = y+1
           else
             hit = utils:create(hitbox)
-            boxes[x][y] = hit:init(x*32,y*32,32,32)
+            hit:init(x*32,y*32,32,32)
+            boxes[#boxes+1] = hit;
           end
         end
       end
       aboxes[g]=boxes --boxes for attack name g
     end
+  --utils:printTable(aboxes)
   return aboxes
 end
 
@@ -41,7 +45,7 @@ function fos:loadchar(char)
   print(fdata["health"])
   abox = fos:parseHitbox(adata)
   utils:printTable(abox)
-  return fdata,adata
+  return fdata,adata,abox
 end
 
 return fos

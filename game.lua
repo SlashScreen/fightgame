@@ -15,7 +15,8 @@ function game:load()
   --[[OBJECTS]]--
 
   player = utils:create(player)
-  player:init(world)
+  player:init(world,"test")
+  players = {player}
 
   objects = {} -- table to hold all our physical objects
   --stage
@@ -32,7 +33,7 @@ end
 
 function game:update(dt,player)
   world:update(dt) --this puts the world into motion
-  player:update(dt)
+  player:update(dt,players)
  --here we are going to create some keyboard events
 
 
