@@ -10,6 +10,7 @@ function fos:parseHitbox(adata)
   y = 0
   boxes = {}
   aboxes = {}
+  w = 64
     for g,m in pairs(adata) do
       for t,h in pairs(m["hit"]["frames"]) do
         x = 0
@@ -22,7 +23,7 @@ function fos:parseHitbox(adata)
             y = y+1
           else
             hit = utils:create(hitbox)
-            hit:init(x*32,y*32,32,32)
+            hit:init(x*w,y*w,w,w)
             boxes[#boxes+1] = hit;
           end
         end

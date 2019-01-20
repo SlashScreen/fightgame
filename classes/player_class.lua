@@ -7,22 +7,24 @@ local utils = require "modules/utils"
 
 function player:damage(d)
   self.health = self.health - d
-  print (self.health)
+  print (self.health,self.name)
 end
 
 function player:calcAttack(attack,boxes,adata,players)
   print("--a--")
+  print(self.h)
   type = adata[attack]["type"]
   damage = 0
   target = nil
   for _,p in pairs(players) do
     print(p.name)
     for g,a in pairs(boxes[attack]) do
-       x1,y1,x2,y2 = p.phys.shape:computeAABB(0,0,0,0)
+       x1,y1,x2,y2 = p.phys.body:getWorldPoints(p.phys.shape:getPoints())
        w1 = x2-x1
        h1 = y2-y1
        love.graphics.rectangle( "fill", self.x+a["x"], self.y+a["y"], a["w"], a["h"] )
-       if utils:CheckCollision(self.x+a["x"],self.y+a["y"],a["w"],a["h"],x1,y1,w1,h1) then
+       --print(self.x+self.w+a["x"],self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1)
+       if utils:CheckCollision(self.x+self.w+a["x"],self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1) then
          if type == "one" then
            damage = adata[attack]["damage"]
            target = p
@@ -64,6 +66,8 @@ function player:init(world,char,x,y,name)
   print("self boxes")
   print(dummy,name)
   self.x,self.y = x,y
+  self.w = 50
+  self.h = 100
   self.opponents = nil
   self.standshape = love.physics.newRectangleShape(0, 0, 50, 100)
   self.slideshape = love.physics.newRectangleShape(0, 0, 50, 40)
@@ -114,6 +118,7 @@ function player:update(dt,players)
     self.phys.shape = self.slideshape
     self:reFix()
     self.phys.fixture:setFriction(.1)
+    self.h = 40
   end
   function love.keyreleased(key)
     if key == "lshift" then
@@ -121,6 +126,7 @@ function player:update(dt,players)
       self.phys.shape = self.standshape
       self.phys.fixture:setFriction(.5)
       self:reFix()
+      self.h = 100
     end
   end
   if self.state ~= "slide" then
@@ -167,7 +173,7 @@ function player:draw()
   love.graphics.setColor(0.55, 0.55, 0.55) --set the drawing color to red for the player
   if love.keyboard.isDown("e") then
     for g,a in pairs(self.aboxes["primary"]) do
-      love.graphics.rectangle( "fill", self.x+a["x"], self.y+a["y"], a["w"], a["h"] )
+      love.graphics.rectangle( "fill", self.x+self.w+a["x"], self.y-a["y"], a["w"], a["h"] )
     end
   end
 end

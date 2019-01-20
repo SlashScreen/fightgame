@@ -7,7 +7,7 @@ local utils = require "modules/utils"
 
 function player:damage(d)
   self.health = self.health - d
-  print (self.health)
+  print (self.health,self.name)
 end
 
 function player:calcAttack(attack,boxes,adata,players)
