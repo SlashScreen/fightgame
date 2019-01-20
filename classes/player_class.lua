@@ -16,15 +16,17 @@ function player:calcAttack(attack,boxes,adata,players)
   damage = 0
   target = nil
   for _,p in pairs(players) do
+    print(p.name)
     for g,a in pairs(boxes[attack]) do
        x1,y1,x2,y2 = p.phys.shape:computeAABB(0,0,0,0)
        w1 = x2-x1
        h1 = y2-y1
+       love.graphics.rectangle( "fill", self.x+a["x"], self.y+a["y"], a["w"], a["h"] )
        if utils:CheckCollision(self.x+a["x"],self.y+a["y"],a["w"],a["h"],x1,y1,w1,h1) then
          if type == "one" then
            damage = adata[attack]["damage"]
            target = p
-           return damage
+           return damage,target
          else
            damage = damage + adata[attack]["damage"]
            target = p --maybe do multiple targets at once?
@@ -32,6 +34,7 @@ function player:calcAttack(attack,boxes,adata,players)
        end
     end
   end
+  print(damage,target)
   return damage, target
 end
 
@@ -151,7 +154,9 @@ function player:update(dt,players)
      end
      if key == "e" then
        dam, tar = self:calcAttack("primary", self.aboxes,self.adata,self.opponents)
-       tar:damage(dam) -- damage target
+       if tar then
+        tar:damage(dam) -- damage target
+       end
      end
   end
 end
@@ -159,6 +164,12 @@ end
 function player:draw()
   love.graphics.setColor(0.76, 0.18, 0.05) --set the drawing color to red for the player
   love.graphics.polygon("fill", self.phys.body:getWorldPoints(self.phys.shape:getPoints()))
+  love.graphics.setColor(0.55, 0.55, 0.55) --set the drawing color to red for the player
+  if love.keyboard.isDown("e") then
+    for g,a in pairs(self.aboxes["primary"]) do
+      love.graphics.rectangle( "fill", self.x+a["x"], self.y+a["y"], a["w"], a["h"] )
+    end
+  end
 end
 
 return player
