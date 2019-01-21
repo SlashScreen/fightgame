@@ -11,29 +11,35 @@ function group:init()
 end
 
 function group:add(x,y)
+
  --add box to group
  hit = utils:create(hitbox)
- hit:init(x*self.w,y*self.w,self.w,self.w)
- self.boxes[#self.boxes+1] = hit;
+ hit:init(x,y,self.w,self.w)
+ print(hit["x"],hit["y"])
+ self.boxes[#self.boxes+1] = utils:deepcopy(hit);
+ hit = nil
 
 end
 
-function group:collide(ox,oy,ow,oh,op,dir,players,d)
+function group:collide(op,dir,players,d)
  --loop
   damage = 0
   target = nil
+  ox1,oy1,ox2,oy2 = op.phys.body:getWorldPoints(op.phys.shape:getPoints())
   --utils:printTable(players)
   for n,p in pairs(players) do
     if p ~= op then
       x1,y1,x2,y2 = p.phys.body:getWorldPoints(p.phys.shape:getPoints())
       w1 = x2-x1
       h1 = y2-y1
-      for _,a in pairs(self.boxes) do
-        if utils:CheckCollision(ox+ow+a["x"],oy-a["y"],a["w"],a["h"],x1,y1,w1,h1) then
+      for m,a in pairs(self.boxes) do
+        if utils:CheckCollision(ox2+a["x"]*self.w,oy1-a["y"]*self.w,a["w"],a["h"],x1,y1,w1,h1) then
+          --print(m)
           if type == "one" then
-            damage = adata[attack]["damage"]
+            damage = d
             target = p
             target:damage(damage,dir)
+            return
           else
             damage = damage + d
             target = p --maybe do multiple targets at once?
@@ -47,13 +53,13 @@ function group:collide(ox,oy,ow,oh,op,dir,players,d)
   end
 end
 
-function group:draw(x,y,w,h,dir)
+function group:draw(op,dir)
  --loop draw from x y
  love.graphics.setColor(0.55, 0.55, 0.55) --set the drawing color to grey for the box
-
+ ox1,oy1,ox2,oy2 = op.phys.body:getWorldPoints(op.phys.shape:getPoints())
  for j,a in pairs(self.boxes) do
-   --print(j)
-   love.graphics.rectangle( "line", x+w+a["x"], y-a["y"], a["w"], a["h"] )
+   print(j,a["x"],a["y"])
+   love.graphics.rectangle( "line", ox2+a["x"]*self.w, oy1-a["y"]*self.w, a["w"], a["h"] )
  end
 end
 
