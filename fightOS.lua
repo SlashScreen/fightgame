@@ -10,11 +10,11 @@ function fos:parseHitbox(adata)
   x = 0
   y = 0
   boxes = {}
-  aboxes = {}
+  agroups = {}
   w = 16
-  group = utils:create(hclass)
-  group:init()
   for g,m in pairs(adata) do
+    group = utils:create(hclass)
+    group:init()
     for t,h in pairs(m["hit"]["frames"]) do
       x = 0
       y = 0
@@ -31,9 +31,9 @@ function fos:parseHitbox(adata)
         end
       end
     end
-    aboxes[g]=boxes --boxes for attack name g
+    agroups[g]=utils:deepcopy(group) --boxes for attack name g
   end
-  return group
+  return agroups
 end
 
 function fos:loadchar(char)

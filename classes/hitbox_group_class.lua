@@ -26,7 +26,6 @@ function group:collide(op,dir,players,d)
   damage = 0
   target = nil
   ox1,oy1,ox2,oy2 = op.phys.body:getWorldPoints(op.phys.shape:getPoints())
-  --utils:printTable(players)
   for n,p in pairs(players) do
     if p ~= op then
       x1,y1,x2,y2 = p.phys.body:getWorldPoints(p.phys.shape:getPoints())
@@ -40,9 +39,8 @@ function group:collide(op,dir,players,d)
         end
 
         if hit then
-          --print(x1,y1,x2,y2)
-          --print(x1,y1,w1,h1)
-          if type == "one" then
+          print("type",self.type)
+          if self.type == "one" then
             damage = d
             target = p
             target:damage(damage,dir)

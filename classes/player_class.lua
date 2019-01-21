@@ -131,7 +131,7 @@ function player:update(dt,players)
        end
      end
      if key == "e" then
-       dam, tar = self.agroup:collide(self,self.dir,self.opponents,self.adata["primary"]["damage"])
+       self.agroup["primary"]:collide(self,self.dir,self.opponents,self.adata["primary"]["damage"])
      end
   end
 end
@@ -140,7 +140,7 @@ function player:draw()
   love.graphics.setColor(0.76, 0.18, 0.05) --set the drawing color to red for the player
   love.graphics.polygon("fill", self.phys.body:getWorldPoints(self.phys.shape:getPoints()))
   if love.keyboard.isDown("e") then
-    self.agroup:draw(self,self.dir)
+    self.agroup["primary"]:draw(self,self.dir)
   end
   love.graphics.setColor(0, 0.55, 0.95) --set the drawing color to green for the point
   --print(self.x, self.y)
