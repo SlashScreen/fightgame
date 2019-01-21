@@ -13,7 +13,7 @@ end
 
 function player:calcAttack(attack,boxes,adata,players)
   print("--a--")
-  print(self.h)
+  --print(self.h)
   type = adata[attack]["type"]
   damage = 0
   target = nil
@@ -26,6 +26,7 @@ function player:calcAttack(attack,boxes,adata,players)
         h1 = y2-y1
         --print(self.x+self.w+a["x"],self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1)
         if utils:CheckCollision(self.x+a["x"]*self.dir,self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1) then
+          print(g)
           if type == "one" then
             damage = adata[attack]["damage"]
             target = p
@@ -64,7 +65,7 @@ function player:init(world,char,x,y,name)
   -control based on availible inputs?
   ]]
   self.name = name
-  self.fdata, self.adata, self.aboxes = fos:loadchar(char)
+  self.fdata, self.adata, self.agroup = fos:loadchar(char)
   print("self boxes")
   print(dummy,name)
   self.x,self.y = x,y
@@ -162,7 +163,7 @@ function player:update(dt,players)
        end
      end
      if key == "e" then
-       dam, tar = self:calcAttack("primary", self.aboxes,self.adata,self.opponents)
+       dam, tar = self.agroup:collide(self.x,self.y,self.w,self.h,self,self.dir,self.opponents,self.adata["primary"]["damage"])
        if tar then
         tar:damage(dam,self.dir) -- damage target
        end
@@ -173,11 +174,8 @@ end
 function player:draw()
   love.graphics.setColor(0.76, 0.18, 0.05) --set the drawing color to red for the player
   love.graphics.polygon("fill", self.phys.body:getWorldPoints(self.phys.shape:getPoints()))
-  love.graphics.setColor(0.55, 0.55, 0.55) --set the drawing color to grey for the box
   if love.keyboard.isDown("e") then
-    for g,a in pairs(self.aboxes["primary"]) do
-      love.graphics.rectangle( "fill", self.x+a["x"]*self.dir, self.y-a["y"], a["w"], a["h"] )
-    end
+    self.agroup:draw(self.x,self.y,self.w,self.h,self.dir)
   end
   love.graphics.setColor(0, 0.55, 0.95) --set the drawing color to green for the point
   --print(self.x, self.y)

@@ -13,11 +13,12 @@ function utils:printTable(table,depth)
     depth = 0
   end
   for key,value in pairs(table) do
+    print(type(value))
     if type(value) == "table" then
       print(string.rep("   ",depth)..key)
       utils:printTable(value,depth+1)
     else
-      print(string.rep("   ",depth)..key,value)
+      print(string.rep("   ",depth)..key,tostring(value))
     end
   end
 end

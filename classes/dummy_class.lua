@@ -11,33 +11,6 @@ function player:damage(d,dir)
   print (self.health,self.name)
 end
 
-function player:calcAttack(attack,boxes,adata,players)
-  print("--a--")
-  type = adata[attack]["type"]
-  damage = 0
-  target = nil
-  for _,p in pairs(players) do
-    if p ~= self then
-      for g,a in pairs(boxes[attack]) do
-        x1,y1,x2,y2 = p.phys.shape:computeAABB(0,0,0,0)
-        w1 = x2-x1
-        h1 = y2-y1
-        if utils:CheckCollision(self.x-a["x"],self.y+a["y"],a["w"],a["h"],x1,y1,w1,h1) then
-          if type == "one" then
-            damage = adata[attack]["damage"]
-            target = p
-            return damage
-          else
-            damage = damage + adata[attack]["damage"]
-            target = p --maybe do multiple targets at once?
-            end
-          end
-       end
-    end
-  end
-  return damage, target
-end
-
 --[[REFIX]]--
 
 function player:reFix() --make a new fixture, used for sliding
