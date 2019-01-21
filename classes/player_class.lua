@@ -5,8 +5,9 @@ player = {}
 local fos = require "fightOS"
 local utils = require "modules/utils"
 
-function player:damage(d)
+function player:damage(d,dir)
   self.health = self.health - d
+  self.phys.body:applyForce(100000*self.dir*damage, -300000*damage)
   print (self.health,self.name)
 end
 
@@ -18,22 +19,23 @@ function player:calcAttack(attack,boxes,adata,players)
   target = nil
   for _,p in pairs(players) do
     print(p.name)
-    for g,a in pairs(boxes[attack]) do
-       x1,y1,x2,y2 = p.phys.body:getWorldPoints(p.phys.shape:getPoints())
-       w1 = x2-x1
-       h1 = y2-y1
-       love.graphics.rectangle( "fill", self.x+a["x"], self.y+a["y"], a["w"], a["h"] )
-       --print(self.x+self.w+a["x"],self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1)
-       if utils:CheckCollision(self.x+self.w+a["x"],self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1) then
-         if type == "one" then
-           damage = adata[attack]["damage"]
-           target = p
-           return damage,target
-         else
-           damage = damage + adata[attack]["damage"]
-           target = p --maybe do multiple targets at once?
-         end
-       end
+    if p ~= self then
+      for g,a in pairs(boxes[attack]) do
+        x1,y1,x2,y2 = p.phys.body:getWorldPoints(p.phys.shape:getPoints())
+        w1 = x2-x1
+        h1 = y2-y1
+        --print(self.x+self.w+a["x"],self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1)
+        if utils:CheckCollision(self.x+a["x"]*self.dir,self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1) then
+          if type == "one" then
+            damage = adata[attack]["damage"]
+            target = p
+            return damage,target
+          else
+            damage = damage + adata[attack]["damage"]
+            target = p --maybe do multiple targets at once?
+            end
+          end
+        end
     end
   end
   print(damage,target)
@@ -85,6 +87,7 @@ function player:init(world,char,x,y,name)
   self.phys.shape = self.standshape
   self:reFix()
   self.phys.fixture:setFriction(.5)
+  love.graphics.setPointSize( 10 )
 end
 
 --[[UPDATE]]--
@@ -95,7 +98,7 @@ function player:update(dt,players)
 
   self.opponents = players
 
-  self.x,self.y = self.phys.body:getPosition()
+  self.x,self.y = self.phys.body:getWorldPoints(self.phys.shape:getPoints())
 
   if #self.phys.body:getContacts() == 0 then --better control in air; in air or on land
     self.state = "air"
@@ -161,7 +164,7 @@ function player:update(dt,players)
      if key == "e" then
        dam, tar = self:calcAttack("primary", self.aboxes,self.adata,self.opponents)
        if tar then
-        tar:damage(dam) -- damage target
+        tar:damage(dam,self.dir) -- damage target
        end
      end
   end
@@ -170,12 +173,15 @@ end
 function player:draw()
   love.graphics.setColor(0.76, 0.18, 0.05) --set the drawing color to red for the player
   love.graphics.polygon("fill", self.phys.body:getWorldPoints(self.phys.shape:getPoints()))
-  love.graphics.setColor(0.55, 0.55, 0.55) --set the drawing color to red for the player
+  love.graphics.setColor(0.55, 0.55, 0.55) --set the drawing color to grey for the box
   if love.keyboard.isDown("e") then
     for g,a in pairs(self.aboxes["primary"]) do
-      love.graphics.rectangle( "fill", self.x+self.w+a["x"], self.y-a["y"], a["w"], a["h"] )
+      love.graphics.rectangle( "fill", self.x+a["x"]*self.dir, self.y-a["y"], a["w"], a["h"] )
     end
   end
+  love.graphics.setColor(0, 0.55, 0.95) --set the drawing color to green for the point
+  --print(self.x, self.y)
+  love.graphics.points( self.x, self.y )
 end
 
 return player

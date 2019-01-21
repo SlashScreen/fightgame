@@ -22,9 +22,11 @@ function fos:parseHitbox(adata)
             x = 0
             y = y+1
           else
+            --print(x,y)
             hit = utils:create(hitbox)
             hit:init(x*w,y*w,w,w)
             boxes[#boxes+1] = hit;
+            x = x+1
           end
         end
       end
