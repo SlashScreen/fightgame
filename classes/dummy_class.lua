@@ -7,7 +7,8 @@ local utils = require "modules/utils"
 
 function player:damage(d,dir)
   self.health = self.health - d
-  self.phys.body:applyForce(100000*self.dir*damage, -300000*damage)
+  print("dir",dir)
+  self.phys.body:applyForce(100000*dir*damage, -30000*damage)
   print (self.health,self.name)
 end
 

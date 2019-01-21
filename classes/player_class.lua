@@ -7,40 +7,8 @@ local utils = require "modules/utils"
 
 function player:damage(d,dir)
   self.health = self.health - d
-  self.phys.body:applyForce(100000*self.dir*damage, -300000*damage)
+  self.phys.body:applyForce(100000*dir*damage, -300000*damage)
   print (self.health,self.name)
-end
-
-function player:calcAttack(attack,boxes,adata,players)
-  print("--a--")
-  --print(self.h)
-  type = adata[attack]["type"]
-  damage = 0
-  target = nil
-  for _,p in pairs(players) do
-    print(p.name)
-    if p ~= self then
-      for g,a in pairs(boxes[attack]) do
-        x1,y1,x2,y2 = p.phys.body:getWorldPoints(p.phys.shape:getPoints())
-        w1 = x2-x1
-        h1 = y2-y1
-        --print(self.x+self.w+a["x"],self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1)
-        if utils:CheckCollision(self.x+a["x"]*self.dir,self.y-a["y"],a["w"],a["h"],x1,y1,w1,h1) then
-          print(g)
-          if type == "one" then
-            damage = adata[attack]["damage"]
-            target = p
-            return damage,target
-          else
-            damage = damage + adata[attack]["damage"]
-            target = p --maybe do multiple targets at once?
-            end
-          end
-        end
-    end
-  end
-  print(damage,target)
-  return damage, target
 end
 
 --[[REFIX]]--
