@@ -5,6 +5,7 @@ function game:load()
   local pclass = require "classes/player_class"
   local dclass = require "classes/dummy_class"
   local utils = require "modules/utils"
+  local camera = require "modules/camera"
 
   --TODO: Make ground based on map, make rects based on players
 
@@ -19,12 +20,11 @@ function game:load()
   players = {}
   pl = utils:create(pclass) --these both refer to the same object ????
   pl:init(world,"test",100,150,"player")
-  players[#players+1] = pl;
+  players[#players+1] = utils:deepcopy(pl);
   dum = utils:create(dclass)
   dum:init(world,"test",300,150,"dummy")
-  players[#players+1] = dum
+  players[#players+1] = utils:deepcopy(dum)
 
-  print(dum==pl)
   --utils:printTable(pl)
 
   objects = {} -- table to hold all our physical objects
@@ -34,10 +34,14 @@ function game:load()
   objects.ground.fixture = love.physics.newFixture(objects.ground.body, objects.ground.shape); --attach shape to body
   objects.ground.fixture:setFriction(1)
 
+  --cam
+
+  zoom, cx, cy = camera:calculate(players)
   return players
 end
 
 function game:update(dt,players)
+  zoom, cx, cy = camera:calculate(players)
   world:update(dt) --this puts the world into motion
   for _,p in pairs(players) do
     --print(p.name)

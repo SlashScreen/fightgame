@@ -23,6 +23,20 @@ function utils:deepcopy(orig)
     return copy
 end
 
+function utils:maxtable (tbl)
+  highest = 0
+  for i,v in pairs(tbl)do
+	    if v > highest then
+	        highest = v
+	    end
+	end
+  return highest
+end
+
+function utils:pythag(a,b)
+  return math.sqrt((a*a)+(b*b))
+end
+
 function utils:printTable(table,depth)
   if depth == nil then
     depth = 0
