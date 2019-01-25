@@ -25,6 +25,7 @@ function camera:calculate(players)
   centerx = centerx/#pos --average points
   centery = centery/#pos
   zoom = camwide/basecam --calc zoom
+  --print(zoom)
   return zoom,centerx,centery
 end
 

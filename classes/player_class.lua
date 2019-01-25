@@ -136,7 +136,7 @@ function player:update(dt,players)
   end
 end
 
-function player:draw()
+function player:draw(scale)
   love.graphics.setColor(0.76, 0.18, 0.05) --set the drawing color to red for the player
   love.graphics.polygon("fill", self.phys.body:getWorldPoints(self.phys.shape:getPoints()))
   if love.keyboard.isDown("e") then
