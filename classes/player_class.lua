@@ -33,7 +33,7 @@ function player:init(world,char,x,y,name)
   -control based on availible inputs?
   ]]
   self.name = name
-  self.fdata, self.adata, self.agroup = fos:loadchar(char)
+  self.fdata, self.adata, self.agroup,self.anim = fos:loadchar(char,"test")
   print("self boxes")
   print(dummy,name)
   self.x,self.y = x,y

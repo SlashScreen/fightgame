@@ -1,5 +1,6 @@
 --utils.lua
 utils = {}
+local json = require "modules/vendor/json"
 
 function utils:create (o)
   o = o or {}   -- create object if user does not provide one
@@ -53,14 +54,14 @@ function utils:printTable(table,depth)
 end
 
 function utils:getQuads(jsonfile,image)
-  f = assert(io.open(jsonfile, "r")):read("*all")
+  f = assert(love.filesystem.read(jsonfile))
   aes_tbl=json.decode (f)
   frames = {}
   i=0
   img = love.graphics.newImage(image)
   for key,frame in pairs(aes_tbl["frames"]) do
     c = frame["frame"]
-    i = c["x"]/c["w"] --figure out orger based on width
+    i = c["x"]/c["w"] --figure out order based on width
     frames[i] = love.graphics.newQuad(c["x"],c["y"],c["w"],c["h"],img:getDimensions())
   end
   return frames

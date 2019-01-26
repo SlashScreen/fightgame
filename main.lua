@@ -4,7 +4,6 @@ function love.load(arg)
   local fos = require "fightOS"
   local game = require "game"
   p = game:load()
-  fos:loadchar("test")
   -- body...
 end
 

@@ -25,8 +25,7 @@ function fos:parseHitbox(adata)
           x = 0
           y = y-1
         else
-          --print(x,y)
-          group:add(x,y)
+          group:add(x,y) --add box at x,y
           x = x+1
         end
       end
@@ -36,14 +35,32 @@ function fos:parseHitbox(adata)
   return agroups
 end
 
-function fos:loadchar(char)
+function fos:loadchar(char,cost)
   fconfig,_ = love.filesystem.read("fighters/"..char.."/fconfig.json") --fighter config file
   aconfig,_ = love.filesystem.read("fighters/"..char.."//attacks/aconfig.json") --fighter attack config file
   fdata = json.decode(fconfig) --fighter config table
   adata = json.decode(aconfig) --attack config table
   --TODO: make objects out of adata
+  --print(char,cost)
+  animdata = fos:loadAnims(char,cost)
   agroup = fos:parseHitbox(adata)
-  return fdata,adata,agroup
+  return fdata,adata,agroup,animadata
+end
+
+function fos:loadAnims(char,costume)
+  --print(debug.traceback())
+  --print(char,costume)
+  anims = {}
+  imgs = love.filesystem.getDirectoryItems("fighters/"..char.."/assets/"..costume)
+  utils:printTable(imgs)
+  for _,i in pairs(imgs) do
+    if string.find(i,".png") then
+      imgname = string.gsub(i,".png","")
+      anims[imgname] = utils:getQuads("fighters/"..char.."/assets/"..costume.."/"..imgname..".json","fighters/"..char.."/assets/"..costume.."/"..i)
+    end
+  end
+  --TODO: loop through all PNGs, pull assets, quadify them, return
+  return anims
 end
 
 return fos
