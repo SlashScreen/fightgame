@@ -24,8 +24,8 @@ function camera:calculate(players)
   camwide = utils:maxtable(dist)+margin --calc length and margin
   centerx = centerx/#pos --average points
   centery = centery/#pos
-  zoom = camwide/basecam --calc zoom
-  --print(zoom)
+  zoom = basecam/camwide --calc zoom
+  --print(centerx,centery)
   return zoom,centerx,centery
 end
 

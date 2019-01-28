@@ -44,22 +44,26 @@ function fos:loadchar(char,cost)
   --print(char,cost)
   animdata = fos:loadAnims(char,cost)
   agroup = fos:parseHitbox(adata)
-  return fdata,adata,agroup,animadata
+  return fdata,adata,agroup,animdata
 end
 
 function fos:loadAnims(char,costume)
   --print(debug.traceback())
   --print(char,costume)
   anims = {}
+  anims["src"] = {}
   imgs = love.filesystem.getDirectoryItems("fighters/"..char.."/assets/"..costume)
   utils:printTable(imgs)
   for _,i in pairs(imgs) do
     if string.find(i,".png") then
       imgname = string.gsub(i,".png","")
+      anims[imgname] = {}
+      anims["src"][imgname] = love.graphics.newImage("fighters/"..char.."/assets/"..costume.."/"..i)
       anims[imgname] = utils:getQuads("fighters/"..char.."/assets/"..costume.."/"..imgname..".json","fighters/"..char.."/assets/"..costume.."/"..i)
     end
   end
   --TODO: loop through all PNGs, pull assets, quadify them, return
+  utils:printTable(anims)
   return anims
 end
 

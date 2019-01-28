@@ -34,6 +34,7 @@ function player:init(world,char,x,y,name)
   ]]
   self.name = name
   self.fdata, self.adata, self.agroup,self.anim = fos:loadchar(char,"test")
+  print(self.fdata, self.adata, self.agroup,self.anim)
   print("self boxes")
   print(dummy,name)
   self.x,self.y = x,y
@@ -136,12 +137,18 @@ function player:update(dt,players)
   end
 end
 
-function player:draw(scale)
+function player:draw(scale,cx,cy)
   love.graphics.setColor(0.76, 0.18, 0.05) --set the drawing color to red for the player
-  love.graphics.polygon("fill", self.phys.body:getWorldPoints(self.phys.shape:getPoints()))
+  x1,y1,x2,y2,x3,y3,x4,y4 = self.phys.body:getWorldPoints(self.phys.shape:getPoints())
+  love.graphics.polygon("fill", x1,y1,x2,y2,x3,y3,x4,y4)
   if love.keyboard.isDown("e") then
     self.agroup["primary"]:draw(self,self.dir)
   end
+  --print(self.anim)
+  --utils:printTable(self.anim)
+  --print(self.anim["src"]["stand"],"----stand")
+  utils:draw(self.anim["src"]["stand"],self.anim["stand"][0],x1,y2,cx,cy,scale)
+
   love.graphics.setColor(0, 0.55, 0.95) --set the drawing color to green for the point
   --print(self.x, self.y)
   love.graphics.points( self.x, self.y )

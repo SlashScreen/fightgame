@@ -54,7 +54,7 @@ function game:draw(players)
   love.graphics.setColor(0.28, 0.63, 0.05) -- set the drawing color to green for the ground
   love.graphics.polygon("fill", objects.ground.body:getWorldPoints(objects.ground.shape:getPoints())) -- draw a "filled in" polygon using the ground's coordinates
   for _,p in pairs(players) do
-    p:draw()
+    p:draw(zoom,cx,cy)
   end
 end
 
