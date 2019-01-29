@@ -4,7 +4,8 @@ local json = require "modules/vendor/json"
 
 function utils:draw(img,q,x,y,cx,cy,scale)
   --print(img,q)
-  love.graphics.draw(img,q,x+cx,y+cy,0,scale,scale)
+  width, height = love.graphics.getDimensions()
+  love.graphics.draw(img,q,(width/2)+x-cx,(height/2)+y-cy,0,scale,scale) --train of thought: anchored on center of screen
 end
 
 function utils:create (o)

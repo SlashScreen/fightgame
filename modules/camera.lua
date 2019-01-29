@@ -7,38 +7,31 @@ local utils = require "modules/utils"
 function camera:calculate(players)
   xl = {}
   yl = {}
+  dxl = {}
+  dyl = {}
   dist = {}
   dist[1] = 0
   camwide = 0
   basecam = 500
   margin = 200
   centerx , centery = 0,0
-  --print(centerx,centery)
-  --print("-------------pos")
   piter = 0
   for g,p in pairs(players) do --get positions of all players
     xl[piter],yl[piter] = p.phys.body:getPosition()
-    --print(g,"--g")
+    dxl[piter],dyl[piter] = p.phys.body:getWorldPoints(p.phys.shape:getPoints())
     piter = piter+1
   end
-  --utils:printTable(xl)
   for i =1 ,#xl do
     dist[i] = utils:pythag(xl[i]-xl[i-1],yl[i]-yl[i-1]) --find distance
-    --print(centerx,centery)
-    centerx = centerx + xl[i] --add to midpoints
-    centery = centery + yl[i]
-    --print(centerx,centery)
+    centerx = centerx + dxl[i] --add to midpoints
+    centery = centery + dyl[i]
   end
 
-  --utils:printTable(pos)
-  --print(centerx,centery)
   camwide = utils:maxtable(dist)+margin --calc length and margin
-  centerx = centerx/#xl --average points
-  centery = centery/#yl
-  --print(centerx,centery)
-  --print("-------------end")
   zoom = basecam/camwide --calc zoom
-  --print(centerx,centery)
+  centerx = (centerx/#dxl)/zoom --average points. TODO: this is the point in world coords I should center on, bot not screen coords
+  centery = (centery/#dyl)/zoom
+
   return zoom,centerx,centery
 end
 
