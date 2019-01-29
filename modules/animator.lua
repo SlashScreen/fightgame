@@ -2,7 +2,7 @@
 --Animator is an object attatched to anything that needs animation, that will handle all timing and  drawing
 --for that object.
 
-ani = {}
+ani = {} --initialize "ani" ("animator" that's easy to type for someone who is bad at typing) table for functions
 
 function ani:init(anims)
   --This will initialize the animator object with the animations availible to the object it's animating for.
@@ -40,4 +40,4 @@ function ani:draw()
   --TODO: draw call
 end
 
-return ani
+return ani --returns table: very important in lua, otherwise module won't work

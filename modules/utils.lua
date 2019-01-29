@@ -4,7 +4,7 @@ local json = require "modules/vendor/json"
 
 function utils:draw(img,q,x,y,cx,cy,scale)
   --print(img,q)
-  love.graphics.draw(img,q,x+cx,y-cy,0,scale,scale)
+  love.graphics.draw(img,q,x+cx,y+cy,0,scale,scale)
 end
 
 function utils:create (o)

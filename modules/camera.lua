@@ -15,14 +15,14 @@ function camera:calculate(players)
   centerx , centery = 0,0
   --print(centerx,centery)
   --print("-------------pos")
+  piter = 0
   for g,p in pairs(players) do --get positions of all players
-    --print(p.phys.body:getPosition())
-    xl[g],yl[g] = p.phys.body:getPosition()
-    print(g,"--g")
-    --print(p.phys.body:getPosition(),g)
-    --utils:printTable(pos[g])
+    xl[piter],yl[piter] = p.phys.body:getPosition()
+    --print(g,"--g")
+    piter = piter+1
   end
-  for i =2 ,#xl do
+  --utils:printTable(xl)
+  for i =1 ,#xl do
     dist[i] = utils:pythag(xl[i]-xl[i-1],yl[i]-yl[i-1]) --find distance
     --print(centerx,centery)
     centerx = centerx + xl[i] --add to midpoints
