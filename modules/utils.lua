@@ -2,10 +2,15 @@
 utils = {}
 local json = require "modules/vendor/json"
 
+function utils:lerp(a,b,t) return a+(b-a)*t end
+
 function utils:draw(img,q,x,y,cx,cy,scale)
   --print(img,q)
   width, height = love.graphics.getDimensions()
-  love.graphics.draw(img,q,x-(width/2),y-(height/2),0,scale,scale) --train of thought: anchored on center of screen
+  w = width/2
+  h = height/2
+  --+utils:lerp(0,cy-(cy+y),scale)
+  love.graphics.draw(img,q,utils:lerp(0,w+cx-(cx-x),scale),utils:lerp(0,cy-(cy-y),scale),0,scale,scale) --train of thought: anchored on center of screen
 end
 
 function utils:create (o)
