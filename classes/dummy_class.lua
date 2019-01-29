@@ -85,7 +85,7 @@ function player:update(dt,players)
   end
 end
 
-function player:draw()
+function player:draw(scale,cx,cy)
   love.graphics.setColor(0.76, 0.18, 0.05) --set the drawing color to red for the player
   x1,y1,x2,y2,x3,y3,x4,y4 = self.phys.body:getWorldPoints(self.phys.shape:getPoints())
   love.graphics.polygon("fill", x1,y1,x2,y2,x3,y3,x4,y4)
