@@ -31,7 +31,7 @@ function camera:calculate(players)
   zoom = basecam/camwide --calc zoom
   centerx = (centerx/#dxl)/zoom --average points. TODO: this is the point in world coords I should center on, bot not screen coords
   centery = (centery/#dyl)/zoom
-
+  --figure out how to make it so that it draws x based on zoom? /zoom
   return zoom,centerx,centery
 end
 
