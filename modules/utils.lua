@@ -6,13 +6,12 @@ function utils:lerp(a,b,t) return a+(b-a)*t end
 
 function utils:draw(img,q,x,y,cx,cy,scale)
   --print(img,q)
+  --cx = 50
+  --cy = 50
   width, height = love.graphics.getDimensions()
   w = width/2
   h = height/2
-  --print(w,h)
-  --+utils:lerp(0,cy-(cy+y),scale)
-  print(w+((x-w)*zoom+w),((cy-(cy-y))-h))
-  love.graphics.draw(img,q,w+((x-w)*zoom+w),((cy-(cy-y))-h),0,scale,scale) --train of thought: anchored on center of screen
+  love.graphics.draw(img,q,((cx-x)*-1)+w,((cy-y)*-1)+h,0,scale,scale) --train of thought: anchored on center of screen
 end
 
 function utils:create (o)
