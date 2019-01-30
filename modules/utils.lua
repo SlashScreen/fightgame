@@ -9,8 +9,10 @@ function utils:draw(img,q,x,y,cx,cy,scale)
   width, height = love.graphics.getDimensions()
   w = width/2
   h = height/2
+  print(w,h)
   --+utils:lerp(0,cy-(cy+y),scale)
-  love.graphics.draw(img,q,utils:lerp(0,w+cx-(cx-x),scale),utils:lerp(0,cy-(cy-y),scale),0,scale,scale) --train of thought: anchored on center of screen
+  print(w+utils:lerp(0,cx-(cx-x),scale),h+utils:lerp(0,cy-(cy-y),scale))
+  love.graphics.draw(img,q,w+utils:lerp(0,cx-(cx-x),scale),utils:lerp(0,cy-(cy-y),scale),0,scale,scale) --train of thought: anchored on center of screen
 end
 
 function utils:create (o)

@@ -5,6 +5,7 @@ camera = {}
 local utils = require "modules/utils"
 
 function camera:calculate(players)
+  width, height = love.graphics.getDimensions()
   xl = {}
   yl = {}
   dxl = {}
@@ -19,18 +20,25 @@ function camera:calculate(players)
   for g,p in pairs(players) do --get positions of all players
     xl[piter],yl[piter] = p.phys.body:getPosition()
     dxl[piter],dyl[piter] = p.phys.body:getWorldPoints(p.phys.shape:getPoints())
+    --print(dyl[piter])
     piter = piter+1
   end
   for i =1 ,#xl do
     dist[i] = utils:pythag(xl[i]-xl[i-1],yl[i]-yl[i-1]) --find distance
-    centerx = centerx + dxl[i] --add to midpoints
-    centery = centery + dyl[i]
+  end
+
+  for _,j in pairs(dxl) do
+    centerx = centerx+j
+  end
+  for _,j in pairs(dyl) do
+    centery = centery+j
   end
 
   camwide = utils:maxtable(dist)+margin --calc length and margin
   zoom = basecam/camwide --calc zoom
-  centerx = (centerx/#dxl)/zoom --average points. TODO: this is the point in world coords I should center on, bot not screen coords
-  centery = (centery/#dyl)/zoom
+  centerx = (centerx/#players) --average points.
+  centery = (centery/#players)
+  
   --figure out how to make it so that it draws x based on zoom? /zoom
   return zoom,centerx,centery
 end
