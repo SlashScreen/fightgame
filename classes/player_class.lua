@@ -144,9 +144,6 @@ function player:draw(scale,cx,cy)
   if love.keyboard.isDown("e") then
     self.agroup["primary"]:draw(self,self.dir)
   end
-  --print(self.anim)
-  --utils:printTable(self.anim)
-  --print(self.anim["src"]["stand"],"----stand")
   utils:draw(self.anim["src"]["stand"],self.anim["stand"][0],x1,y2,cx,cy,scale)
 
   love.graphics.setColor(0, 0.55, 0.95) --set the drawing color to green for the point

@@ -5,13 +5,11 @@ local json = require "modules/vendor/json"
 function utils:lerp(a,b,t) return a+(b-a)*t end
 
 function utils:draw(img,q,x,y,cx,cy,scale)
-  --print(img,q)
-  --cx = 50
-  --cy = 50
   width, height = love.graphics.getDimensions()
   w = width/2
   h = height/2
-  love.graphics.draw(img,q,((cx-x)*-1)+w,((cy-y)*-1)+h,0,scale,scale) --train of thought: anchored on center of screen
+  love.graphics.draw(img,q,((cx-x)*-1)+w,((cy-y)*-1)+h,0,scale,scale)
+  --equation beakdown: find difference between camera x and player x, and then add that to center of screen
 end
 
 function utils:create (o)
