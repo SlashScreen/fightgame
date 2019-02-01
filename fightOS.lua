@@ -62,8 +62,9 @@ function fos:loadAnims(char,costume)
       anims[imgname] = utils:getQuads("fighters/"..char.."/assets/"..costume.."/"..imgname..".json","fighters/"..char.."/assets/"..costume.."/"..i)
     end
   end
-  --TODO: loop through all PNGs, pull assets, quadify them, return
+  print("anims")
   utils:printTable(anims)
+  print("anims end")
   return anims
 end
 

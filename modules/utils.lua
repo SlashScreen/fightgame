@@ -74,6 +74,7 @@ function utils:getQuads(jsonfile,image)
     i = c["x"]/c["w"] --figure out order based on width
     frames[i] = love.graphics.newQuad(c["x"],c["y"],c["w"],c["h"],img:getDimensions())
   end
+  --utils:printTable(frames)
   return frames
 end
 

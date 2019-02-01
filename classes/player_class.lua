@@ -4,6 +4,7 @@ player = {}
 
 local fos = require "fightOS"
 local utils = require "modules/utils"
+local animator = require "modules/animator"
 
 function player:damage(d,dir)
   self.health = self.health - d
@@ -37,6 +38,10 @@ function player:init(world,char,x,y,name)
   print(self.fdata, self.adata, self.agroup,self.anim)
   print("self boxes")
   print(dummy,name)
+  ani = animator
+  ani:init(self.anim)
+  self.animator =  utils:deepcopy(ani)
+  self.animator:newJob("stand",1)
   self.x,self.y = x,y
   self.w = 50
   self.h = 100
@@ -135,6 +140,8 @@ function player:update(dt,players)
        self.agroup["primary"]:collide(self,self.dir,self.opponents,self.adata["primary"]["damage"])
      end
   end
+
+  self.animator:update(dt)
 end
 
 function player:draw(scale,cx,cy)
@@ -144,8 +151,8 @@ function player:draw(scale,cx,cy)
   if love.keyboard.isDown("e") then
     self.agroup["primary"]:draw(self,self.dir)
   end
-  utils:draw(self.anim["src"]["stand"],self.anim["stand"][0],x1,y2,cx,cy,scale)
-
+  --utils:draw(self.anim["src"]["stand"],self.anim["stand"][0],x1,y2,cx,cy,scale)
+  self.animator:draw(x1,y2,scale,cx,cy)
   love.graphics.setColor(0, 0.55, 0.95) --set the drawing color to green for the point
   --print(self.x, self.y)
   love.graphics.points( self.x, self.y )

@@ -8,7 +8,8 @@ local utils = require "modules/utils"
 function ani:init(anims)
   --This will initialize the animator object with the animations availible to the object it's animating for.
 
-  self.aset = anims --animation set
+  self.aset = utils:deepcopy(anims) --animation set
+  print(#self.aset,"self.aset")
   self.fps = 1 --default fps
   self.job = "" --the name of the animation to play
   self.timer = 0 --internal timer
@@ -22,16 +23,17 @@ function ani:update(dt)
   end
   self.timer = self.timer + dt --increment timer by time
 
-  if self.timer >= self.fps then --increment frame if mathches fps value and resets timer
+  if self.timer >= 1/self.fps then --increment frame if mathches fps value and resets timer
     self.frame = self.frame+1
     self.timer = 0
   end
   if self.frame > #self.aset-1 then --reset frame if reached max
+    --print("max")
     self.frame = 0
   end
 end
 
-function ani:newJob(name,fps)
+function ani:newJob(job,fps)
   --tell what animation to play and what fps
   self.job = job
   self.fps = fps
@@ -41,6 +43,7 @@ end
 
 function ani:draw(x,y,zoom,cx,cy)
   --Calls draw function for current frame
+  --print(self.frame)
   utils:draw(self.aset["src"][self.job],self.aset[self.job][self.frame],x,y,cx,cy,zoom)
 end
 

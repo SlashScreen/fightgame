@@ -1,6 +1,14 @@
 { "frames": {
-   "stand.png": {
+   "stand 0.png": {
     "frame": { "x": 0, "y": 0, "w": 32, "h": 64 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 64 },
+    "sourceSize": { "w": 32, "h": 64 },
+    "duration": 100
+   },
+   "stand 1.png": {
+    "frame": { "x": 32, "y": 0, "w": 32, "h": 64 },
     "rotated": false,
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 64 },
@@ -13,7 +21,7 @@
   "version": "1.2.7.3",
   "image": "/Users/BigSister/Desktop/Programs in Love - Art Of Noise/fightbase/fighters/test/assets/test/stand.png",
   "format": "RGBA8888",
-  "size": { "w": 32, "h": 64 },
+  "size": { "w": 64, "h": 64 },
   "scale": "1",
   "frameTags": [
   ],
